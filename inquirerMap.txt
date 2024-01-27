@@ -1,0 +1,109 @@
+INQUIRER {
+    INITIAL QUESTION
+        -What would you like to do?
+            Options:
+                View All Employees, View All Roles, View All Departments, Add Employee, Update Employee Role, Add Role, Add Department, Quit
+
+
+} .THEN {
+    //CONDITIONAL STATEMENT
+
+    IF 
+        View All Employees
+            -Returns, id, first_name, last_name, title, department, salary
+            -Goes back to inital question
+
+    ELSE IF 
+        View All Roles
+            -Returns id, title, department, salary from role table, will need to get department name from department table
+            -Goes back to initial question
+
+
+    ELSE IF 
+        View All Departments
+            -Returns id and name from department table
+            -Goes back to initial question
+
+
+    ELSE IF
+        Add Employee
+            INQUIRER {
+                - What is the employee's first name?
+                - What is the employee's last name?
+                - What is the employee's role?
+                    -List of the roles in the database
+
+
+            }   THEN {
+                    Add the employee to the database
+                    Console.log(Added ${name.first_name} ${name.last_name} to the database.)
+                    Goes back to inital question
+                }
+
+    ELSE IF
+        Update Employee Role
+            INQUIRER {
+                -Which employee's role do you want to update?
+                    -List of the employees in the database
+                - Which role do you want to assign the selected employee?
+                    -List of roles in the database
+            }   THEN {
+                    Update the employee's role in the database
+                    console.log(Updated employee's role)
+                    Goes back to inital question
+                }
+
+    ELSE IF
+        Add role
+            INQUIRER {
+                - What is the name of the role?
+                - What is the salary of the role?
+                - Which department does the role belong to?
+                    - List of the departments in the database
+
+
+            }   THEN {
+                    Add the role to the database
+                    -Console.log(Added ${name.role} to the database.)
+                    Goes back to inital question
+                }
+
+    ELSE IF
+        Add department
+            INQUIRER {
+                - What is the name of the department?
+
+            }   THEN {
+                    Add the department to the database
+                    Console.log(Added ${name.department} to the database.)                   
+                    Goes back to inital question
+                }
+        
+    ELSE
+        Quit
+}
+
+
+
+Departments
+    -Sales, Engineering, Finance, Legal
+
+Roles
+    -Sales Lead, Sales, 100000
+    -Salesperson, Sales, 80000
+    -Lead Engineer, Engineering, 150000
+    -Software Engineer, Engineering, 120000
+    -Account Manager, Finance, 160000
+    -Accountant, Finance, 125000
+    -Legal Team Lead, Legal, 250000
+    -Lawyer, Legal, 190000
+
+Employees
+    -John Doe
+    -Mike Chan
+    -Ashley Rodriguez
+    -Kevin Tupik
+    -Kunal Singh
+    -Malia Brown
+    -Sarah Lourd
+    -Tom Allen
