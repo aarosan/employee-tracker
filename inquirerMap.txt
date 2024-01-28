@@ -10,7 +10,7 @@ INQUIRER {
 
     IF 
         View All Employees
-            -Returns, id, first_name, last_name, title, department, salary
+            -Returns, id, first_name, last_name, title, department, salary, manager
             -Goes back to inital question
 
     ELSE IF 
@@ -32,6 +32,8 @@ INQUIRER {
                 - What is the employee's last name?
                 - What is the employee's role?
                     -List of the roles in the database
+                - Who is the employee's manager?
+                    -List of the employees in the database + none
 
 
             }   THEN {
@@ -98,12 +100,12 @@ Roles
     -Legal Team Lead, Legal, 250000
     -Lawyer, Legal, 190000
 
-Employees
-    -John Doe
-    -Mike Chan
-    -Ashley Rodriguez
-    -Kevin Tupik
-    -Kunal Singh
-    -Malia Brown
-    -Sarah Lourd
-    -Tom Allen
+Employees/Managers
+    -John Doe / null
+    -Mike Chan / John Doe
+    -Ashley Rodriguez / null
+    -Kevin Tupik / Ashley Rodriguez
+    -Kunal Singh / null
+    -Malia Brown / Kunal Singh
+    -Sarah Lourd / null
+    -Tom Allen / Sarah Lourd
