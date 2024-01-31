@@ -9,7 +9,14 @@ const db = mysql.createConnection({
 });
 
 function viewAllEmployees(startProgram) {
-    db.query('SELECT * FROM employee', (error, results, fields) => {
+    db.query(`SELECT e.id, e.first_name, e.last_name, r.title, d.name as department, r.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
+    FROM employee AS e
+    LEFT JOIN role AS r ON e.role_id = r.id
+    LEFT JOIN department AS d ON r.department_id = d.id
+    LEFT JOIN employee AS m ON e.manager_id = m.id
+
+    `, 
+    (error, results, fields) => {
         if(error) {
             console.error('Error executing employee query:', error);
             return;
@@ -25,7 +32,10 @@ function viewAllEmployees(startProgram) {
 }
 
 function viewAllRoles(startProgram) {
-    db.query('SELECT * FROM role', (error, results, fields) => {
+    db.query(`SELECT r.id, r.title, d.name AS department, r.salary 
+    FROM role as r
+    LEFT JOIN department as d on r.department_id = d.id`, 
+    (error, results, fields) => {
         if(error) {
             console.error('Error executing role query:', error);
             return;
@@ -57,13 +67,13 @@ function viewAllDepartments(startProgram) {
 }
 
 function addEmployee(startProgram) {                
-    db.query('SELECT title FROM role', (error, results, fields) => {
+    db.query('SELECT id, title FROM role', (error, results, fields) => {
         if (error) {
             console.error('Error fetching roles from the role table:', error);
             return;
         }
 
-        db.query('SELECT CONCAT(first_name, " ", last_name) AS manager_name FROM employee', (managerError, managerResults, managerFields) => {
+        db.query('SELECT id, CONCAT(first_name, " ", last_name) AS manager_name FROM employee', (managerError, managerResults, managerFields) => {
             if (managerError) {
                 console.error('Error fetching employees from the employee table:', managerError);
                 return;
@@ -103,11 +113,25 @@ function addEmployee(startProgram) {
                     type: 'list',
                     name: 'employee_manager',
                     message: "Who is the employee's manager?",
-                    choices: managerResults.map(employee => employee.manager_name)
+                    choices: ['None', ...managerResults.map(employee => employee.manager_name)]
                 }
             ])
             .then((answers) => {
-                //NEED TO ADD TO THE DATABASE
+                const selectedRole = results.find(role => role.title === answers.employee_role);
+
+                let managerId = null;
+
+                if (answers.employee_manager !== 'None') {
+                    const selectedManager = managerResults.find(manager => manager.manager_name === answers.employee_manager);
+                    managerId = selectedManager.id;
+                }
+                
+
+                db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, [answers.first_name, answers.last_name, selectedRole.id, managerId], (insertError, result) => {
+                    if (insertError) {
+                        console.error('Error adding employee:', insertError);
+                    }
+                })
                 console.log(`\nAdded ${answers.first_name} ${answers.last_name} to the database.`);    
 
                 // console.log('Add Employee clicked!');        
@@ -124,13 +148,13 @@ function addEmployee(startProgram) {
 }
 
 function updateEmployeeRole(startProgram) {
-    db.query('SELECT CONCAT(first_name, " ", last_name) AS employee_name FROM employee', (error, results, fields) => {
+    db.query('SELECT id, CONCAT(first_name, " ", last_name) AS employee_name FROM employee', (error, results, fields) => {
         if (error) {
             console.error('Error fetching employees from the employee table:', error);
             return;
         }
 
-        db.query('SELECT title FROM role', (roleError, roleResults, roleFields) => {
+        db.query('SELECT id, title FROM role', (roleError, roleResults, roleFields) => {
             if(roleError) {
                 console.error('Error fetching roles from the role table:', roleError);
                 return;
@@ -152,19 +176,22 @@ function updateEmployeeRole(startProgram) {
                 }
             ])
             .then((answers) => {
-                //NEED TO FINISH THIS UPDATE
-                // db.query(`UPDATE employee SET role_id= = (?)`, [], (error, result) => {
-                //     if (error) {
-                //         console.error('Error updating role:', error);
-                //         return;
-                //     }
-        
-                    // console.log(`\nUpdated employee's role.`);    
+                const selectedEmployee = results.find(employee => employee.employee_name === answers.employeeList);
 
-                    // console.log('Update Employee Role clicked!');
+                const selectedRole = roleResults.find(role => role.title === answers.roleList);
+
+                db.query(`UPDATE employee SET role_id = (?) WHERE id = (?)`, [selectedRole.id, selectedEmployee.id], (updateError, result) => {
+                    if (updateError) {
+                        console.error('Error updating role:', updateError);
+                        return;
+                    }
         
-                //     pressEnter(startProgram);
-                // })
+                    console.log(`\nUpdated employee's role.`);    
+
+                    console.log('Update Employee Role clicked!');
+        
+                    pressEnter(startProgram);
+                })
 
             })
             .catch((error) => {
