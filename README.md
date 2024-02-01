@@ -10,16 +10,30 @@
 
 ## Description
 
+This command-line application allows you to manage a company's employee database, using Node.js, Inquirer, and MySQL.
+
 ## Table of Contents
 
-- [Installation](#installation)
 - [Features](#features)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Employee-Tracker-Database](#employee-tracker)
 - [Screen-Recording](#screen-recording)
 - [License](#license)
-- [What-I-Learned](#learned)
 - [Questions](#questions)
+
+<a id="features"></a>
+
+### Features
+
+This application allows you to do the following:
+- View all Employees in the employee_tracker_db
+- View all Roles in the employee_tracker_db
+- View all Departments in the employee_tracker_db
+- Add a new Employee to the employee_tracker_db
+- Add a new Role to the employee_tracker_db
+- Add a new Department to the employee_tracker_db
+- Update an Employee Role in the employee_tracker_db
 
 <a id="installation"></a>
 
@@ -40,10 +54,6 @@
     - ```node index.js```
     - ```npm run start```
 
-<a id="features"></a>
-
-### Features
-
 <a id="usage"></a>
 
 ### Usage
@@ -58,15 +68,13 @@
 
 ### Screen Recording
 
+[![Video](https://img.youtube.com/vi/UdtHf4eKecE/0.jpg)](https://www.youtube.com/watch?v=UdtHf4eKecE)
+
 <a id="license"></a>
 
 ### License
 
 This program uses the MIT License.
-
-<a id="learned"></a>
-
-### What I Learned
 
 <a id="questions"></a>
 

@@ -188,7 +188,7 @@ function updateEmployeeRole(startProgram) {
         
                     console.log(`\nUpdated employee's role.`);    
 
-                    console.log('Update Employee Role clicked!');
+                    // console.log('Update Employee Role clicked!');
         
                     pressEnter(startProgram);
                 })
@@ -233,13 +233,14 @@ function addRole(startProgram) {
             }
         ])
         .then((answers) => {
-            console.log(answers)
+            // console.log(answers)
             db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answers.roleName, answers.roleSalary, answers.roleDepartment])
 
             const selectedId = answers.roleDepartment;
-            console.log(selectedId);
+            // console.log(selectedId);
 
-            console.log(`\nAdded ${answers.roleName} to the database\n`);
+            console.log(`\nAdded ${answers.roleName} to the database
+            `);
 
             // console.log('Add Role clicked!');
 
