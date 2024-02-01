@@ -76,6 +76,14 @@ This application allows you to do the following:
 
 This program uses the MIT License.
 
+<a id="credits"></a>
+
+### Credits
+
+Markdown Badges: https://github.com/Ileriayo/markdown-badges?tab=readme-ov-file#badges
+
+AI chat for help with joining the tables correctly and the 'Employee Tracker' title box once the application starts.
+
 <a id="questions"></a>
 
 ### Questions

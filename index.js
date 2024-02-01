@@ -48,7 +48,7 @@ var startProgram = function () {
             } else if (answers.what === 'Add Department') {
                 functions.addDepartment(startProgram);
             } else if (answers.what === 'Quit') {
-                console.log('Quit Clicked');
+                // console.log('Quit Clicked');
                 process.exit();
             }
         })
